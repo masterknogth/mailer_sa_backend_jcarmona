@@ -19,10 +19,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'username',
-        'email',
-        'password',
+        'rol',           
+        'nombre',         
+        'telefono',     
+        'cedula',        
+        'email',        
+        'password',        
+        'fecha_nacimiento',
+        'codigo_ciudad',
+        'city_id'     
     ];
 
     /**
@@ -43,4 +48,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function city(){
+        return $this->belongsTo("App\Models\City");
+    }
 }

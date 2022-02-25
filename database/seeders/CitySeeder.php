@@ -17,11 +17,45 @@ class CitySeeder extends Seeder
     {
         $faker = Faker::create();
        
-        for ($i=0; $i < 20; $i++) {
+        for ($i=1; $i <= 10; $i++) {
             \DB::table("cities")->insert(
                 array(                       
                     'name' => $faker->city(),
-                    'state_id' => $faker->numberBetween(1,20),
+                    'state_id' => $i,
+                    'created_at' =>date('Y-m-d H:m:s'),
+                    'updated_at' =>date('Y-m-d H:m:s')
+                    
+                )   
+            );
+        }
+
+        for ($i=11; $i <= 20; $i++) {
+            \DB::table("cities")->insert(
+                array(                       
+                    'name' => $faker->city(),
+                    'state_id' => $i,
+                    'created_at' =>date('Y-m-d H:m:s'),
+                    'updated_at' =>date('Y-m-d H:m:s')
+                    
+                )   
+            );
+        }
+        for ($i=1; $i <= 10; $i++) {
+            \DB::table("cities")->insert(
+                array(                       
+                    'name' => $faker->city(),
+                    'state_id' => $i,
+                    'created_at' =>date('Y-m-d H:m:s'),
+                    'updated_at' =>date('Y-m-d H:m:s')
+                    
+                )   
+            );
+        }
+        for ($i=11; $i <= 20; $i++) {
+            \DB::table("cities")->insert(
+                array(                       
+                    'name' => $faker->city(),
+                    'state_id' => $i,
                     'created_at' =>date('Y-m-d H:m:s'),
                     'updated_at' =>date('Y-m-d H:m:s')
                     

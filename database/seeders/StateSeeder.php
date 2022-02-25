@@ -17,16 +17,28 @@ class StateSeeder extends Seeder
     {
         $faker = Faker::create();
        
-        for ($i=0; $i < 20; $i++) {
+        for ($i=1; $i <= 10; $i++) {
             \DB::table("states")->insert(
                 array(                       
                     'name' => $faker->state(),
-                    'country_id' => $faker->numberBetween(1,10),
+                    'country_id' => $i,
                     'created_at' =>date('Y-m-d H:m:s'),
                     'updated_at' =>date('Y-m-d H:m:s')
                     
                 )   
             );
         }
+        for ($i=1; $i <= 10; $i++) {
+            \DB::table("states")->insert(
+                array(                       
+                    'name' => $faker->state(),
+                    'country_id' => $i,
+                    'created_at' =>date('Y-m-d H:m:s'),
+                    'updated_at' =>date('Y-m-d H:m:s')
+                    
+                )   
+            );
+        }
+        
     }
 }

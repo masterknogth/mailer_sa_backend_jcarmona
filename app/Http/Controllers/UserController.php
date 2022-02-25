@@ -31,11 +31,13 @@ class UserController extends Controller
             $token =  $user->createToken('MyApp')->accessToken;      
             return response()->json([
                 'token' => $token,
-                'sub' => $user->id,
+                'sub'   => $user->id,
+                'rol'   => $user->rol,
+                'loged' => true
 
             ], 200);
         } else {
-            return response()->json(['error' => 'Email o password inválidos'], 401);
+            return response()->json(['error' => 'Email o password inválidos'], 400);
         }
 
 
@@ -53,11 +55,15 @@ class UserController extends Controller
      //REGISTRO DE USUARIO
     public function signUp(Request $request)
     {
+        
         $rules = [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed'
+            'nombre' => 'required|string|max:100',
+            'telefono' => 'max:10',
+            'cedula' => 'required|max:11|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'fecha_nacimiento' => 'required',
+            'codigo_ciudad' => 'required',
         ];
 
         $validator = \Validator::make($request->all(), $rules);
@@ -67,22 +73,42 @@ class UserController extends Controller
 
 
         // REGISTRO UN USUARIO NUEVO
-        $user = new User();
-
-        $user->name = $request->input('name');
-        $user->username = $request->input('username');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-      
-
-
-        $user->save();
+        $user = User::create([
+            'rol'              => $request->input('rol'),
+            'nombre'           => $request->input('nombre'),
+            'telefono'         => $request->input('telefono'),
+            'cedula'           => $request->input('cedula'),
+            'email'            => $request->input('email'),
+            'password'         => bcrypt($request->input('password')),
+            'fecha_nacimiento' => $request->input('fecha_nacimiento'),
+            'codigo_ciudad'    => $request->input('codigo_ciudad'),
+            'city_id'          => $request->input('city_id')
+        ]);
+       
 
         return response()->json([       
             'message' => 'Usuario registrado', 
         ], 200);
        
      
+    }
+
+    public function allUsers()
+    {
+        $users = User::select('id','nombre','telefono', 'cedula', 'email', 'codigo_ciudad','city_id')
+        ->with(['city'])
+        ->get();
+
+        if($users){
+            return response()->json([       
+                'data' => $users, 
+            ], 200);
+        }else{
+            return response()->json([       
+                'error' => 'No hay registro', 
+            ], 400);
+        }
+        
     }
 
 }
