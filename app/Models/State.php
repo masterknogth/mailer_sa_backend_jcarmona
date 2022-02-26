@@ -17,6 +17,7 @@ class State extends Model
         'id',
         'name',
         'country_id',
+        'country',
         'cities'
     ];
 

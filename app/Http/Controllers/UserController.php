@@ -95,8 +95,8 @@ class UserController extends Controller
 
     public function allUsers()
     {
-        $users = User::select('id','nombre','telefono', 'cedula', 'email', 'codigo_ciudad','city_id')
-        ->with(['city'])
+        $users = User::select('id','nombre','telefono', 'fecha_nacimiento', 'cedula', 'email', 'codigo_ciudad','city_id')
+        ->with(['city.state.country'])
         ->get();
 
         if($users){
@@ -109,6 +109,56 @@ class UserController extends Controller
             ], 400);
         }
         
+    }
+
+    public function update(Request $request)
+    {
+        
+        $rules = [
+            'nombre' => 'required|string|max:100',
+            'telefono' => 'max:10',
+            'fecha_nacimiento' => 'required',
+            'codigo_ciudad' => 'required',
+        ];
+
+        $validator = \Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['created' => false, 'error' => $validator->errors()], 422);
+        }
+
+
+    
+        $user = User::select('id')
+        ->where('id', $request->input('id'))
+        ->first();
+        $user->update([
+            'nombre'           => $request->input('nombre'),
+            'telefono'         => $request->input('telefono'),
+            'fecha_nacimiento' => $request->input('fecha_nacimiento'),
+            'codigo_ciudad'    => $request->input('codigo_ciudad'),
+            'city_id'          => $request->input('city_id')
+        ]);
+       
+
+        return response()->json([       
+            'message' => 'Usuario Editado', 
+        ], 200);
+       
+     
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $user = User::select('id')
+        ->where('id', $id)
+        ->first();
+        $user->delete();
+       
+        return response()->json([       
+            'message' => 'Usuario Eliminado', 
+        ], 200);
+       
+     
     }
 
 }

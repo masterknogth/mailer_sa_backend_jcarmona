@@ -11,6 +11,7 @@ class CityController extends Controller
     {
         $cities = City::Select('id','name','state_id')
         ->where(['state_id' => $state_id])
+        ->with(['state.country'])
         ->get();
         
         return response()->json([
