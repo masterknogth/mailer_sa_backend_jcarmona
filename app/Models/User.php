@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 //use Laravel\Sanctum\HasApiTokens;
 use Laravel\Passport\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -28,6 +29,10 @@ class User extends Authenticatable
         'fecha_nacimiento',
         'codigo_ciudad',
         'city_id'     
+    ];
+
+    protected $appends = [
+        'edad',
     ];
 
     /**
@@ -52,4 +57,14 @@ class User extends Authenticatable
     public function city(){
         return $this->belongsTo("App\Models\City");
     }
+
+    public function getEdadAttribute(): string
+    {
+        $fecha_actual = now();
+        $edad = $fecha_actual->DiffInYears($this->fecha_nacimiento);
+
+        return $edad;
+       
+    }
+
 }

@@ -95,7 +95,10 @@ class UserController extends Controller
 
     public function allUsers()
     {
+        $user = Auth::user();
+
         $users = User::select('id','nombre','telefono', 'fecha_nacimiento', 'cedula', 'email', 'codigo_ciudad','city_id')
+        ->where('id', "!=", $user->id)
         ->with(['city.state.country'])
         ->get();
 
