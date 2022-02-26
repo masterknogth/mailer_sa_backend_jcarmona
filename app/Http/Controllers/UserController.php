@@ -93,12 +93,20 @@ class UserController extends Controller
      
     }
 
-    public function allUsers()
+    public function allUsers(Request $request)
     {
         $user = Auth::user();
-
         $users = User::select('id','nombre','telefono', 'fecha_nacimiento', 'cedula', 'email', 'codigo_ciudad','city_id')
-        ->where('id', "!=", $user->id)
+        ->where('id', "!=", $user->id);
+
+        if (!is_null($request->text)) {
+            $users = $users
+            ->where('nombre','like','%'.$request->text.'%')
+            ->Orwhere('cedula','like','%'.$request->text.'%')
+            ->Orwhere('email','like','%'.$request->text.'%')
+            ->Orwhere('telefono','like','%'.$request->text.'%');
+        }
+        $users = $users
         ->with(['city.state.country'])
         ->get();
 

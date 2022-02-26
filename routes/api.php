@@ -33,7 +33,7 @@ Route::group([
       'prefix' => ''
     ], function() { // AQUI ESTARAN TODAS LAS RUTAS QUE SI NECESTAN AUTENTICACION
         Route::get('logout', 'App\Http\Controllers\UserController@logout');
-        Route::get('users', 'App\Http\Controllers\UserController@allUsers');
+        Route::post('users', 'App\Http\Controllers\UserController@allUsers');
         Route::put('update-user', 'App\Http\Controllers\UserController@update');
         Route::delete('delete-user/{id}', 'App\Http\Controllers\UserController@delete');
         Route::resource('emails', 'App\Http\Controllers\EmailController');
