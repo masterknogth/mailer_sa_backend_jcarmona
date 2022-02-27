@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                     'cedula'           => $faker->numerify('########'),
                     'email'            => $faker->email(),
                     'password'         => bcrypt('12345678'),
-                    'fecha_nacimiento' => "1990-12-20",
+                    'fecha_nacimiento' => $faker->dateTimeBetween('1980-01-01', '2002-12-31')->format('Y-m-d'),
                     'codigo_ciudad'    => "12345",
                     'city_id'          => 1,
                     'created_at'       => date('Y-m-d H:m:s'),
