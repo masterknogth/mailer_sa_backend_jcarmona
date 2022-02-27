@@ -24,7 +24,7 @@ class EmailController extends Controller
             ->get();
 
         }else{
-            $emails = Email::where('user_id', $user->id)
+            $emails = Email::where('user_id', $user->id)->orWhere('destino', $user->email)
             ->with(['user'])
             ->get();
         }
